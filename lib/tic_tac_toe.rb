@@ -37,7 +37,7 @@ class TicTacToe
       end
 
     def position_taken?(index)
-       !(@board[index].nil? || @board[index] == " ")
+       !(@board[index].nil? || @board[index] == " ") # @board[index] != " "
     end
 
     def valid_move?(num)
@@ -45,11 +45,11 @@ class TicTacToe
     end
 
     def turn_count
-     @board.count("X") + @board.count("O")
+     @board.count("X") + @board.count("O")  # @board.count{|square| square != " " }
     end
 
     def current_player
-        if turn_count.even?
+        if turn_count.even? # turn_count.even? ? "X" : "O"
             "X"
         else
             "O"
@@ -58,22 +58,22 @@ class TicTacToe
 
     def turn
         puts "Please Enter Your Move."
-        input2 = gets
+        input2 = gets # gets.strip
         input3 = input_to_index(input2)
        if  valid_move?(input3) 
         player = current_player
         move(input3, player)
-        display_board
+        display_board # Could Be at end of turn not at end of Valid Move
        else
-        self.turn
+        self.turn # Self not needed
        end
     end
 
     def won?
-        WIN_COMBINATIONS.each do |combo|
-          one = @board[combo[0]]
-          two = @board[combo[1]]
-          three = @board[combo[2]]
+        WIN_COMBINATIONS.each do |combo| # WIN_COMBINATIONS.any? do |combo|
+          one = @board[combo[0]]         #     if position_taken?(combo[0]) && @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
+          two = @board[combo[1]]         #        return combo
+          three = @board[combo[2]]       #     end (3x)    
           if (one == "X" && two == "X" && three == "X") || (one == "O" && two == "O" && three == "O")
             return combo
           end
@@ -82,22 +82,22 @@ class TicTacToe
     end
 
     def full?
-        !@board.include?(" ")
+        !@board.include?(" ") # @board.all?{|square| square != " " }
     end
 
     def draw?
-        if won? == false && full? == true 
+        if won? == false && full? == true # All could be "full? && !won?"
             return true
         end
     end
 
     def over?
-        won? || draw? ? true : false
+        won? || draw? ? true : false # ? true : false not needed
     end
 
     def winner
-        if won? == false
-          nil
+        if won? == false #if combo = won?
+          nil # @board[combo[0]] - thats all you need
         elsif @board[won?[0]] == "X"
           "X"
         else 
@@ -106,8 +106,8 @@ class TicTacToe
     end
 
     def play
-        until over? == true
-            turn
+        until over? == true # turn until over?
+            turn #  puts winner ? "Congratulations #{winner}!" : "Cat's Game!" (All thats needed)
         end
         if draw? == true
             puts "Cat's Game!"
