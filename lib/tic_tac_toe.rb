@@ -14,9 +14,9 @@ class TicTacToe
         [2,5,8]  # End column
     ]
 
-    def initialize(board = nil)
-        @board = board || Array.new(9, " ")
-    end
+    def initialize(board = nil)                 # def initialize
+        @board = board || Array.new(9, " ")     #   @board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+    end                                         # end
 
 
     def display_board
@@ -31,9 +31,9 @@ class TicTacToe
         index = num.to_i - 1
     end
 
-    def move(input, player = "X")
-        index = input
-        @board[index] = player
+    def move(input, player)
+        index = input # Not Needed
+        @board[index] = player # Index could of been input
       end
 
     def position_taken?(index)
