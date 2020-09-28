@@ -52,7 +52,6 @@ class TicTacToe
         winning_array = WIN_COMBINATIONS.select do |win_combo_array|
             win_combo_array.all? {|index| @board[index] == "X"} || win_combo_array.all? {|index| @board[index] == "O"}    
         end
-        # binding.pry
         winning_array != [] ? winning_array.flatten : nil
     end
 
