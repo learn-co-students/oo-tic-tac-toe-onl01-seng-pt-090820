@@ -1,4 +1,4 @@
-#require 'pry'
+require 'pry'
 class TicTacToe
     WIN_COMBINATIONS = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
     def initialize
@@ -52,6 +52,26 @@ class TicTacToe
         winning_array = WIN_COMBINATIONS.select do |win_combo_array|
             win_combo_array.all? {|index| @board[index] == "X"} || win_combo_array.all? {|index| @board[index] == "O"}    
         end
-        winning_array
+        # binding.pry
+        winning_array != [] ? winning_array.flatten : nil
+    end
+
+    def full?
+        @board.none? {|position| position == " "}
+    end
+
+    def draw?
+        !won? && full?
+    end
+
+    def over?
+        won? || draw?
+    end
+
+    def winner
+        if won?
+            winner_index = won?.first
+            @board[winner_index]
+        end
     end
 end
