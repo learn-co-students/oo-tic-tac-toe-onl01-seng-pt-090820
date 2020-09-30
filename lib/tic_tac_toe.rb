@@ -173,6 +173,7 @@ class TicTacToe
   
   #Plays a game of TicTacToe
   def play
+    self.display_board
     while !self.over? do
       self.turn
     end
@@ -182,8 +183,4 @@ class TicTacToe
       puts "Congratulations #{self.winner}!"
     end
   end
-  
-  
-  
-  
 end
