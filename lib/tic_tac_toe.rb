@@ -49,10 +49,14 @@ class TicTacToe
     end
 
     def won?
-        winning_array = WIN_COMBINATIONS.select do |win_combo_array|
+        # winning_array = WIN_COMBINATIONS.select do |win_combo_array|
+        #     win_combo_array.all? {|index| @board[index] == "X"} || win_combo_array.all? {|index| @board[index] == "O"}    
+        # end
+        # winning_array != [] ? winning_array.flatten : nil
+        #find returns nil if it doesn't find anything
+        WIN_COMBINATIONS.find do |win_combo_array|
             win_combo_array.all? {|index| @board[index] == "X"} || win_combo_array.all? {|index| @board[index] == "O"}    
         end
-        winning_array != [] ? winning_array.flatten : nil
     end
 
     def full?
