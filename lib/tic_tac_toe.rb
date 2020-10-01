@@ -12,7 +12,7 @@ class TicTacToe
     [2,4,6]
     ]
   
-  def initialize()
+  def initialize
     @board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
   end
   
@@ -28,7 +28,7 @@ class TicTacToe
   end
   
   def position_taken?(index)
-    if board[index] == " " || board[index] == "" || board[index] == nil
+    if @board[index] == " " || @board[index] == "" || @board[index] == nil
       false
     else 
       true
@@ -36,13 +36,11 @@ class TicTacToe
   end
   
   def move(input, token = "X")
-    if valid_move?(input)
-      @board[input] = token
-    end
+    @board[input] = token
   end
   
   def valid_move?(input)
-    unless position_taken?(input) || input < 0 || input > 9 || input == nil
+    if !position_taken?(input) && input > -1 && input < 9 && input != nil
       true 
     else 
       false 
@@ -50,13 +48,15 @@ class TicTacToe
   end 
   
   def turn
-    input = gets.chomp
-    input = input_to_index(input)
-    if valid_move?(input)
-      move(input_to_index(input))
+    input = input_to_index(gets.chomp)
+    token = current_player()
+    is_valid_move = valid_move?(input)
+    if is_valid_move
+      move(input, token)
     else 
-      turn 
+      turn
     end
+    display_board
   end
   
   def turn_count 
@@ -70,7 +70,7 @@ class TicTacToe
   end 
   
   def current_player
-    if turn_count + 1 % 2 == 1 
+    if (turn_count + 1) % 2 == 1 
       "X"
     else 
       "O"
@@ -78,11 +78,26 @@ class TicTacToe
   end
   
   def won? 
-    
+    won = false
+    win_arr = []
+    counter = 0
+   WIN_COMBINATIONS.each { |item|
+     if @board[item[0]] == @board[item[1]] && @board[item[1]] == @board[item[2]] && position_taken?(item[1])
+       won = true
+       win_arr = WIN_COMBINATIONS[counter]
+     end
+     counter += 1
+   }
+  # puts win_arr
+   if won 
+     win_arr 
+   else 
+     false 
+   end
   end
   
   def full?
-    if @board.contain?(" ")
+    if @board.include?(" ")
        false
     else 
       true 
@@ -90,12 +105,51 @@ class TicTacToe
   end
   
   def draw?
-    if self.full? && !self.won?
+    if full? && !won?
+      true 
+    elsif full? && won?
+      false 
+    else
+      false 
+    end
+  end
+  
+  def over?
+    if full? or won?
       true 
     else 
       false 
     end
   end
+  
+  def winner 
+    if won?
+      if turn_count % 2 == 1 
+        "X" 
+      else 
+        "O"
+      end
+    else 
+      nil 
+    end
+  end
+  
+  def play 
+    while over? == false do
+      turn
+      if draw?
+        break
+      end
+  end
+    if winner == "X"
+      puts "Congratulations X!"
+    elsif winner == "O"
+      puts "Congratulations O!"
+    else 
+      puts "Cat's Game!"
+    end
+  end
+  
   
   
   
